@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: Typesense
+spec:
+  description: Fast, open source, typo-tolerant search engine
+  icon: https://typesense.org/docs/images/typesense_logo.svg
+  coverImage: "https://github.com/typesense/typesense/raw/v28/assets/typesense_books_demo.gif?raw=true"
+  tags:
+    - Search Engine
+    - Open Source
+    - Typo-tolerant
+    - Fast
+  readme: |-
+    # Typesense
+    Typesense is a fast, typo-tolerant search engine for building delightful search experiences.
+
+    An Open Source Algolia Alternative & An Easier-to-Use ElasticSearch Alternative
+
+    home page: https://typesense.org/
+
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Domain
+      description: What is the domain you want for your Typesense?
+  services:
+    - name: typesense
+      icon: "https://avatars.githubusercontent.com/u/19822348?s=48&v=4"
+      template: PREBUILT_V2
+      spec:
+        source:
+          image: typesense/typesense:27.1
+        ports:
+          - id: web
+            port: 8108
+            type: HTTP
+        volumes:
+          - id: data
+            dir: /data
+        instructions:
+          - type: PASSWORD
+            title: Typesense API Key
+            content: ${TYPESENSE_API_KEY}
+            category: Credentials
+        env:
+          TYPESENSE_API_KEY:
+            default: ${PASSWORD}
+            expose: true
+          TYPESENSE_DATA_DIR:
+            default: /data
+            expose: false
+        domainKey: PUBLIC_DOMAIN
+        configs: []
