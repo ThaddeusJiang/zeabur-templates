@@ -20,11 +20,11 @@ spec:
 
     home page: https://typesense.org/
 
-  variables:
-    - key: PUBLIC_DOMAIN
-      type: DOMAIN
-      name: Domain
-      description: What is the domain you want for your Typesense?
+  # variables:
+  #   - key: PUBLIC_DOMAIN
+  #     type: DOMAIN
+  #     name: Domain
+  #     description: What is the domain you want for your Typesense?
   services:
     - name: typesense
       icon: "https://avatars.githubusercontent.com/u/19822348?s=48&v=4"
@@ -51,5 +51,5 @@ spec:
           TYPESENSE_DATA_DIR:
             default: /data
             expose: false
-        domainKey: PUBLIC_DOMAIN
+        # domainKey: PUBLIC_DOMAIN
         configs: []
