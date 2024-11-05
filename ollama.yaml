@@ -19,7 +19,7 @@ spec:
 
     Run Llama 3.2, Phi 3, Mistral, Gemma 2, and other models. Customize and create your own.
 
-    more: https://ollama.com/
+    [more](https://github.com/ThaddeusJiang/zeabur-templates/blob/main/ollama.md)
 
   # variables:
   #   - key: PUBLIC_DOMAIN
