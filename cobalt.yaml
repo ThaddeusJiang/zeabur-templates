@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: Cobalt
+spec:
+  description: best way to save what you love
+  icon: https://github.com/imputnet/cobalt/raw/main/web/static/favicon.png
+  tags:
+    - downloader
+    - music
+    - video
+    - image
+    - social-media
+    - twitter
+    - X
+    - youtube
+    - instagram
+    - pinterest
+    - tiktok
+  readme: |-
+    # Cobalt
+    cobalt is a media downloader that doesn't piss you off. it's friendly, efficient, and doesn't have ads, trackers, paywalls or other nonsense.
+
+    paste the link, get the file, move on. that simple, just how it should be.
+
+    [more](https://github.com/ThaddeusJiang/zeabur-templates/blob/main/cobalt.md)
+
+  services:
+    - name: cobalt-api
+      icon: https://github.com/imputnet/cobalt/raw/main/web/static/favicon.png
+      template: PREBUILT_V2
+      spec:
+        source:
+          image: ghcr.io/imputnet/cobalt:10
+        ports:
+          - id: api
+            port: 9000
+            type: TCP
+        env:
+          API_URL:
+            default: undefined
+            expose: false
+
+        configs: []
