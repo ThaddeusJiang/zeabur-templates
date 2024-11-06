@@ -26,10 +26,17 @@ spec:
 
     [more](https://github.com/ThaddeusJiang/zeabur-templates/blob/main/cobalt.md)
 
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Domain
+      description: What is the domain you want for your service?
+
   services:
     - name: cobalt-api
       icon: https://github.com/imputnet/cobalt/raw/main/web/static/favicon.png
       template: PREBUILT_V2
+      domainKey: PUBLIC_DOMAIN
       spec:
         source:
           image: ghcr.io/imputnet/cobalt:10
@@ -41,5 +48,4 @@ spec:
           API_URL:
             default: undefined
             expose: false
-
         configs: []

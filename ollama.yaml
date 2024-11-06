@@ -21,15 +21,16 @@ spec:
 
     [more](https://github.com/ThaddeusJiang/zeabur-templates/blob/main/ollama.md)
 
-  # variables:
-  #   - key: PUBLIC_DOMAIN
-  #     type: DOMAIN
-  #     name: Domain
-  #     description: What is the domain you want for your Ollama?
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Domain
+      description: What is the domain you want for your service?
   services:
     - name: ollama
       icon: https://github.com/ollama/ollama/assets/3325447/0d0b44e2-8f4a-4e99-9b52-a5c1c741c8f7
       template: PREBUILT_V2
+      domainKey: PUBLIC_DOMAIN
       spec:
         source:
           image: ollama/ollama

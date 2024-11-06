@@ -20,15 +20,16 @@ spec:
 
     [more](https://github.com/ThaddeusJiang/zeabur-templates/blob/main/typesense.md)
 
-  # variables:
-  #   - key: PUBLIC_DOMAIN
-  #     type: DOMAIN
-  #     name: Domain
-  #     description: What is the domain you want for your Typesense?
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Domain
+      description: What is the domain you want for your service?
   services:
     - name: typesense
       icon: "https://avatars.githubusercontent.com/u/19822348?s=48&v=4"
       template: PREBUILT_V2
+      domainKey: PUBLIC_DOMAIN
       spec:
         source:
           image: typesense/typesense:27.1
@@ -51,5 +52,4 @@ spec:
           TYPESENSE_DATA_DIR:
             default: /data
             expose: false
-        # domainKey: PUBLIC_DOMAIN
         configs: []
