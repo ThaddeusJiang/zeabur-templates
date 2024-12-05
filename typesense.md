@@ -1,10 +1,10 @@
 # Typesense
 
-- zeabur template: https://zeabur.com/templates/FTAONK
+- zeabur template: https://zeabur.com/templates/80HJJG
 - typesense github: https://github.com/typesense/typesense
 
 ## Develop
 
 ```sh
-npx zeabur template update -c FTAONK -f typesense.yaml
+npx zeabur template update -c 80HJJG -f typesense.yaml
 ```
