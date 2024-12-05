@@ -41,6 +41,10 @@ spec:
           - id: data
             dir: /data
         instructions:
+          - type: TEXT
+            title: Typesense URL
+            content: ${PORT_FORWARDED_HOSTNAME}
+            category: Hostname & Port
           - type: PASSWORD
             title: Typesense API Key
             content: ${TYPESENSE_API_KEY}
