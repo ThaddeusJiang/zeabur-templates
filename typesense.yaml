@@ -43,7 +43,7 @@ spec:
         instructions:
           - type: TEXT
             title: Typesense URL
-            content: ${PORT_FORWARDED_HOSTNAME}
+            content: ${ZEABUR_WEB_URL}
             category: Hostname & Port
           - type: PASSWORD
             title: Typesense API Key
