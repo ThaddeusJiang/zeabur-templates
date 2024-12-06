@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: Typesense (without volume)
+spec:
+  description: Fast, open source, typo-tolerant search engine
+  icon: https://typesense.org/docs/images/typesense_logo.svg
+
+  tags:
+    - Open Source
+    - Test
+    - CI/CD
+
+  readme: |-
+    # Typesense
+
+    Important: This template does not use a volume to store data. If you want to store data, please use [Typesense](https://zeabur.com/templates/80HJJG).
+
+    You can use this template for testing and CI/CD purposes, save money.
+
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Domain
+      description: What is the domain you want for your service?
+  services:
+    - name: typesense
+      icon: "https://avatars.githubusercontent.com/u/19822348?s=48&v=4"
+      template: PREBUILT_V2
+      domainKey: PUBLIC_DOMAIN
+      spec:
+        source:
+          image: typesense/typesense:27.1
+        ports:
+          - id: web
+            port: 8108
+            type: HTTP
+        instructions:
+          - type: TEXT
+            title: Typesense URL
+            content: ${ZEABUR_WEB_URL}
+            category: Hostname & Port
+          - type: PASSWORD
+            title: Typesense API Key
+            content: ${TYPESENSE_API_KEY}
+            category: Credentials
+        env:
+          TYPESENSE_API_KEY:
+            default: ${PASSWORD}
+            expose: true
+          TYPESENSE_DATA_DIR:
+            default: /data
+            expose: false
+        configs: []
