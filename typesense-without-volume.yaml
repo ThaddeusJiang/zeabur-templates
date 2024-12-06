@@ -50,6 +50,6 @@ spec:
             default: ${PASSWORD}
             expose: true
           TYPESENSE_DATA_DIR:
-            default: /data
+            default: /tmp
             expose: false
         configs: []
