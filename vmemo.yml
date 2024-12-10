@@ -1,0 +1,181 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+    name: Vmemo
+spec:
+    description: Record your life with impactful visuals, not plain, forgettable text.
+    icon: https://i.gyazo.com/54a25cd93911174e573519c60d354880.png
+    variables:
+      - key: PUBLIC_DOMAIN
+        type: DOMAIN
+        name: Domain
+        description: What is the domain you want for your service?
+    services:
+      - name: Vmemo
+        domainKey: PUBLIC_DOMAIN
+        template: PREBUILT_V2
+        icon: https://i.gyazo.com/54a25cd93911174e573519c60d354880.png
+        spec:
+          source:
+              image: thaddeusjiang/vmemo:latest
+          ports:
+              - id: web
+                port: 4000
+                type: HTTP
+          volumes:
+              - id: data
+                dir: /app/storage
+          instructions:
+              - type: TEXT
+                title: URL
+                content: ${ZEABUR_WEB_URL}
+                category: Hostname & Port
+          env:
+              DATABASE_URL:
+                default: ${POSTGRES_CONNECTION_STRING}
+                expose: false
+              TYPESENSE_URL:
+                  default: ${TYPESENSE_URL}
+                  expose: false
+              TYPESENSE_API_KEY:
+                  default: ${TYPESENSE_API_KEY}
+                  expose: false
+              PHX_HOST:
+                  default: ${ZEABUR_WEB_DOMAIN}
+                  expose: false
+              SECRET_KEY_BASE:
+                expose: false
+              RESEND_API_KEY:
+                  expose: false
+          configs: []
+
+      - name: postgresql
+        icon: https://raw.githubusercontent.com/zeabur/service-icons/main/marketplace/postgresql.svg
+        template: PREBUILT_V2
+        spec:
+          source:
+              image: postgres:17
+              command:
+                  - docker-entrypoint.sh
+                  - -c
+                  - config_file=/etc/postgresql/postgresql.conf
+          ports:
+              - id: database
+                port: 5432
+                type: TCP
+          volumes:
+              - id: data
+                dir: /var/lib/postgresql/data
+          instructions:
+              - type: TEXT
+                title: Connection String
+                content: postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${PORT_FORWARDED_HOSTNAME}:${DATABASE_PORT_FORWARDED_PORT}/${POSTGRES_DATABASE}
+              - type: TEXT
+                title: PostgreSQL Connect Command
+                content: psql "postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${PORT_FORWARDED_HOSTNAME}:${DATABASE_PORT_FORWARDED_PORT}/${POSTGRES_DATABASE}"
+              - type: TEXT
+                title: PostgreSQL username
+                content: ${POSTGRES_USERNAME}
+                category: Credentials
+              - type: PASSWORD
+                title: PostgresSQL password
+                content: ${POSTGRES_PASSWORD}
+                category: Credentials
+              - type: TEXT
+                title: PostgresSQL database
+                content: ${POSTGRES_DATABASE}
+                category: Credentials
+              - type: TEXT
+                title: PostgreSQL host
+                content: ${PORT_FORWARDED_HOSTNAME}
+                category: Hostname & Port
+              - type: TEXT
+                title: PostgreSQL port
+                content: ${DATABASE_PORT_FORWARDED_PORT}
+                category: Hostname & Port
+          env:
+              PASSWORD:
+                  default: EQw9eDnW5Zf43PIvT8roa02bmH176qGx
+                  expose: false
+              PGDATA:
+                  default: /var/lib/postgresql/data/pgdata
+                  expose: false
+              POSTGRES_CONNECTION_STRING:
+                  default: postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+                  expose: true
+              POSTGRES_DATABASE:
+                  default: ${POSTGRES_DB}
+                  expose: true
+              POSTGRES_DB:
+                  default: vmemo_prod
+                  expose: false
+              POSTGRES_HOST:
+                  default: ${CONTAINER_HOSTNAME}
+                  expose: true
+              POSTGRES_PASSWORD:
+                  default: ${PASSWORD}
+                  expose: true
+              POSTGRES_PORT:
+                  default: ${DATABASE_PORT}
+                  expose: true
+              POSTGRES_URI:
+                  default: ${POSTGRES_CONNECTION_STRING}
+                  expose: true
+              POSTGRES_USER:
+                  default: root
+                  expose: false
+              POSTGRES_USERNAME:
+                  default: ${POSTGRES_USER}
+                  expose: true
+          configs:
+              - path: /etc/postgresql/postgresql.conf
+                template: |
+                  # https://github.com/postgres/postgres/blob/master/src/backend/utils/misc/postgresql.conf.sample
+                  listen_addresses = '*'
+                  max_connections = 100
+                  shared_buffers = 128MB
+                  dynamic_shared_memory_type = posix
+                  max_wal_size = 1GB
+                  min_wal_size = 80MB
+                  log_timezone = 'Etc/UTC'
+                  datestyle = 'iso, mdy'
+                  timezone = 'Etc/UTC'
+                  lc_messages = 'en_US.utf8'
+                  lc_monetary = 'en_US.utf8'
+                  lc_numeric = 'en_US.utf8'
+                  lc_time = 'en_US.utf8'
+                  default_text_search_config = 'pg_catalog.english'
+                permission: null
+                envsubst: null
+
+      - name: typesense
+        icon: https://avatars.githubusercontent.com/u/19822348?s=48&v=4
+        template: PREBUILT_V2
+        spec:
+          source:
+              image: typesense/typesense:27.1
+          ports:
+              - id: web
+                port: 8108
+                type: HTTP
+          volumes:
+              - id: data
+                dir: /data
+          instructions:
+              - type: TEXT
+                title: Typesense URL
+                content: ${ZEABUR_WEB_URL}
+                category: Hostname & Port
+              - type: PASSWORD
+                title: Typesense API Key
+                content: ${TYPESENSE_API_KEY}
+                category: Credentials
+          env:
+              TYPESENSE_API_KEY:
+                  default: ${PASSWORD}
+                  expose: true
+              TYPESENSE_DATA_DIR:
+                  default: /data
+                  expose: false
+          configs: []
