@@ -25,3 +25,11 @@ npx zeabur template update -c 14MGC6 -f ollama.yml
 ```sh
 npx zeabur template update -c 80HJJG -f typesense.yml
 ```
+
+## [TypeLens](https://github.com/copperline-ai/typelens)
+
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/D85DU1)
+
+```sh
+npx zeabur template update -c D85DU1 -f typelens.yml
+```
