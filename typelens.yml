@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: TypeLens
+spec:
+  description: Typesense dashboard with built-in authentication
+  icon: https://raw.githubusercontent.com/copperline-ai/typelens/main/public/logo.png
+  coverImage: https://raw.githubusercontent.com/copperline-ai/typelens/main/public/social-share-banner.png
+  tags:
+    - Search Engine
+    - Dashboard
+    - Open Source
+    - Typesense
+  readme: |-
+    # TypeLens
+
+    This template deploys a standalone TypeLens dashboard with built-in authentication.
+
+    - This template only deploys TypeLens.
+    - Connect your existing Typesense cluster using environment variables.
+    - You need to provide a public domain for TypeLens and Typesense connection settings.
+
+    [TypeLens Repository](https://github.com/copperline-ai/typelens)
+
+  variables:
+    - key: TYPELENS_PUBLIC_DOMAIN
+      type: DOMAIN
+      name: TypeLens Domain
+      description: What is the domain you want for your TypeLens dashboard?
+    - key: TYPESENSE_SERVER_NAME
+      type: STRING
+      name: Typesense Server Name
+      description: Display name for your external Typesense server.
+    - key: TYPESENSE_HOST
+      type: STRING
+      name: Typesense Host
+      description: Hostname or IP address of your external Typesense server.
+    - key: TYPESENSE_PORT
+      type: STRING
+      name: Typesense Port
+      description: Port of your external Typesense server, usually 8108.
+    - key: TYPESENSE_PROTOCOL
+      type: STRING
+      name: Typesense Protocol
+      description: Protocol for connecting to Typesense, usually http or https.
+    - key: TYPESENSE_API_KEY
+      type: PASSWORD
+      name: Typesense API Key
+      description: API key for your external Typesense server.
+  services:
+    - name: typelens
+      icon: https://raw.githubusercontent.com/copperline-ai/typelens/main/public/logo.png
+      template: PREBUILT_V2
+      domainKey: TYPELENS_PUBLIC_DOMAIN
+      spec:
+        source:
+          image: ghcr.io/copperline-ai/typelens:1.19.7
+        ports:
+          - id: web
+            port: 3000
+            type: HTTP
+        instructions:
+          - type: TEXT
+            title: TypeLens URL
+            content: ${ZEABUR_WEB_URL}
+            category: Hostname & Port
+          - type: TEXT
+            title: TypeLens Username
+            content: ${AUTH_USERNAME}
+            category: Credentials
+          - type: PASSWORD
+            title: TypeLens Password
+            content: ${AUTH_PASSWORD}
+            category: Credentials
+        env:
+          TYPESENSE_SERVER_NAME:
+            default: ${TYPESENSE_SERVER_NAME}
+            expose: true
+          TYPESENSE_HOST:
+            default: ${TYPESENSE_HOST}
+            expose: true
+          TYPESENSE_PORT:
+            default: ${TYPESENSE_PORT}
+            expose: true
+          TYPESENSE_PROTOCOL:
+            default: ${TYPESENSE_PROTOCOL}
+            expose: true
+          TYPESENSE_API_KEY:
+            default: ${TYPESENSE_API_KEY}
+            expose: true
+          AUTH_USERNAME:
+            default: ${PASSWORD}
+            expose: false
+          AUTH_PASSWORD:
+            default: ${PASSWORD}
+            expose: false
+        configs: []
